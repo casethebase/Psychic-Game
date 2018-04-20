@@ -26,10 +26,14 @@ document.onkeyup = function() {
     
     console.log(computerGuess);
 
-    // We'll now try to write a condition that says 'If userGuess = computerGuess, win! If not, lose.
+    // We'll now try to write a condition that says 'If userGuess = computerGuess, win! Else, lose, and log it to the console to check if it works.
 
-    if (userGuess=='a' || userGuess=='b' || userGuess=='s') {
-        alert("capturing userguess correctly");
+    if ((userGuess==computerGuess)) {
+        console.log("You Win!");
+    }
+    
+    else {
+        console.log("You lose");
     }
 }
 
