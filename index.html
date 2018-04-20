@@ -5,7 +5,8 @@
   <title>Trigger Random</title>
 
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-  <!-- Added link to the jQuery library -->
+
+  <!-- Added link to the JS file we're building -->
   <script src="assets/javascript/game.js"></script>
 
   <!-- Added a link to Bootstrap-->
@@ -16,20 +17,26 @@
 
   <div class="jumbotron">
 
-    <h1 class="text-center">Generate a Random Number!</h1>
+    <h1 class="text-center">Word Guess!</h1>
 
-    <div class="text-center">
 
-      <!-- Here we have our button for generating random numbers (#random-button) -->
-      <button id="random-button" class="btn btn-primary btn-lg fa fa-question"></button>
+    <h2 class="text-center">Guess what Letter I'm thinking of!</h2>
 
-    </div>
+
+    <h2 class="text-center">Press any key in the alphabet to start playing!</h2>
 
   </div>
 
-  <!-- Here we have div called "randomNumber" where our random number will go -->
-  <h1 class="text-center" id="random-number"></h1>
+  <!-- Here we have div called "score" where our random number will go -->
+  <h1 class="text-center" id="score"></h1>
 
+  <br><br>
+
+    <div class="container">
+        <div class="text-center" id="letterGuess">
+            <!-- Here we keep track of what letter was guessed, in a div ID called "letterGuess" -->
+        </div>
+    </div>
 
 </body>
 </html>

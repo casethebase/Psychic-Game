@@ -15,10 +15,17 @@
 
 var options = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"]
 
+// Now store the data we need to print to the screen in variables, to reference when our win/loss conditions are met
+
+var wins = 0;
+var losses = 0;
+var guesses = 10;
+
 document.onkeyup = function() {
     var userGuess = String.fromCharCode(event.keyCode).
         toLowerCase();
     console.log(userGuess);
+    guesses--;
 
     // Computer makes a choice, and it gets captured. 
 
@@ -29,11 +36,23 @@ document.onkeyup = function() {
     // We'll now try to write a condition that says 'If userGuess = computerGuess, win! Else, lose, and log it to the console to check if it works.
 
     if ((userGuess==computerGuess)) {
-        console.log("You Win!");
+        wins++;
     }
     
     else {
-        console.log("You lose");
+        losses++;
     }
+
+    // We can now move on to creating some html elements that will display our game logic to the page
+
+    var html = "<p>wins: " + wins + "</p>" +
+    "<p>losses: " + losses + "</p>" +
+    "<p>You have " + guesses + " guesses left.</p>";
+
+    document.querySelector("#score").innerHTML = html;
+
+    var letterGuesses = "<br><hr><h1>Your last guess was: " + userGuess + "</h1>";
+
+    document.querySelector("#letterGuess").innerHTML = letterGuesses;
 }
 
