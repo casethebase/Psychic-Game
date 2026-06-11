@@ -1,58 +1,68 @@
-
-
-// -------------- Pseudo code for overall game --------------------
-// User makes a choice
-// Computer makes a choice
-// Capture choices from both
-// Compare choices and determine win, loss, tie
-// Display result to user
-// ---------------------------------------------------------------
-
-
-// 1.) Set an array equal to the number of possble choices. In this case, the entire alphabet.
-
-// 1a.) Could be an opportunity to learn about how to generate a sting of letters programmatically but for now let's just make it the dumb way
-
-var options = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"]
-
-// Now store the data we need to print to the screen in variables, to reference when our win/loss conditions are met
-
+var options = "abcdefghijklmnopqrstuvwxyz".split("");
 var wins = 0;
 var losses = 0;
-var guesses = 10;
+var guessesLeft = 10;
+var guessesSoFar = [];
+var computerGuess = "";
 
-document.onkeyup = function() {
-    var userGuess = String.fromCharCode(event.keyCode).
-        toLowerCase();
-    console.log(userGuess);
-    guesses--;
-
-    // Computer makes a choice, and it gets captured. 
-
-    var computerGuess = options[Math.floor(Math.random()*options.length)]; 
-    
-    console.log(computerGuess);
-
-    // We'll now try to write a condition that says 'If userGuess = computerGuess, win! Else, lose, and log it to the console to check if it works.
-
-    if ((userGuess==computerGuess)) {
-        wins++;
-    }
-    
-    else {
-        losses++;
-    }
-
-    // We can now move on to creating some html elements that will display our game logic to the page
-
-    var html = "<p>wins: " + wins + "</p>" +
-    "<p>losses: " + losses + "</p>" +
-    "<p>You have " + guesses + " guesses left.</p>";
-
-    document.querySelector("#score").innerHTML = html;
-
-    var letterGuesses = "<br><hr><h1>Your last guess was: " + userGuess + "</h1>";
-
-    document.querySelector("#letterGuess").innerHTML = letterGuesses;
+function pickLetter() {
+  return options[Math.floor(Math.random() * options.length)];
 }
 
+function resetRound() {
+  guessesLeft = 10;
+  guessesSoFar = [];
+  computerGuess = pickLetter();
+}
+
+function render(message) {
+  var html = "<p>Wins: " + wins + "</p>" +
+    "<p>Losses: " + losses + "</p>" +
+    "<p>Guesses left: " + guessesLeft + "</p>" +
+    "<p>Your guesses so far: " + (guessesSoFar.join(", ") || "None") + "</p>";
+
+  document.querySelector("#score").innerHTML = html;
+  document.querySelector("#letterGuess").innerHTML = message ? "<br><hr><h1>" + message + "</h1>" : "";
+}
+
+function isLetter(value) {
+  return options.indexOf(value) !== -1;
+}
+
+resetRound();
+render();
+
+document.addEventListener("keyup", function(event) {
+  var userGuess = event.key.toLowerCase();
+
+  if (!isLetter(userGuess)) {
+    render("Please press a letter from A-Z.");
+    return;
+  }
+
+  if (guessesSoFar.indexOf(userGuess) !== -1) {
+    render("You already guessed " + userGuess + ".");
+    return;
+  }
+
+  guessesSoFar.push(userGuess);
+
+  if (userGuess === computerGuess) {
+    wins += 1;
+    resetRound();
+    render("Correct. New round started.");
+    return;
+  }
+
+  guessesLeft -= 1;
+
+  if (guessesLeft === 0) {
+    losses += 1;
+    var missedLetter = computerGuess;
+    resetRound();
+    render("Out of guesses. The letter was " + missedLetter + ".");
+    return;
+  }
+
+  render("Your last guess was " + userGuess + ".");
+});
